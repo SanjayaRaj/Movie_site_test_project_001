@@ -17,18 +17,28 @@ const API_URL = "http://www.omdbapi.com?apikey=3897926e";
 // };
 
 const App = () => {
+  // function sayHello() {
+  //   alert("You clicked me!");
+
   const [movies, setMovies] = useState([]);
   const [SearchTerm, setSearchTerm] = useState("");
-
+  //asynch means Data is transfered without any regularity / take sometime to fetch movies
+  //title is accepted as a serach term
+  //then these search movies are serached from the given API URL
+  //then once we get the response we have to get these data from it
   const searchMovies = async (title) => {
     const response = await fetch(`${API_URL}&s=${title}`);
     const data = await response.json();
-
-    setMovies(data.Search);
+    //console.log(data);
+    //setMovies(data.Search);
+    const serachMovies = data.Search;
+    const numAscending = [...serachMovies].sort((a, b) => a.Year - b.Year);
+    //console.log(numAscending);
+    setMovies(numAscending);
   };
 
   useEffect(() => {
-    searchMovies("spiderman");
+    searchMovies();
   }, []);
 
   return (
@@ -46,10 +56,18 @@ const App = () => {
           onClick={() => searchMovies(SearchTerm)}
         />
       </div>
+      <button className="btn" onClick={() => console.log("hi")}>
+        <h2> Sort by year</h2>
+      </button>
+      {/* <div className="btn" onClick={() => sayHello}>
+        <h2> Sort by year</h2>
+      </div> */}
+
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie) => (
             <MovieCard movie={movie} />
+            // <MovieCard movie={movie} />
           ))}
         </div>
       ) : (
@@ -61,3 +79,5 @@ const App = () => {
   );
 };
 export default App;
+//{from line 53} here we check below the search bar if there is any movies after giving a serach value,
+//if there is no movies in the array, therfor display 'No movies found'
