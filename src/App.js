@@ -35,6 +35,7 @@ const App = () => {
     const numAscending = [...serachMovies].sort((a, b) => a.Year - b.Year);
     //console.log(numAscending);
     setMovies(numAscending);
+    console.log(data);
   };
 
   useEffect(() => {
